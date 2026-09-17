@@ -85,5 +85,5 @@ loki_chart_version: ""
 vector_chart_version: ""
 
 # --- Container images ---------------------------------------------------------
-minio_image: "minio/minio:RELEASE.2025-04-22T22-12-26Z"
-minio_mc_url: "https://dl.min.io/client/mc/release/linux-amd64/mc"
+minio_image: "quay.io/minio/minio:RELEASE.2025-04-22T22-12-26Z.hotfix.c630804a1"
+minio_mc_url: "https://dl.min.io/aistor/mc/release/linux-amd64/mc"

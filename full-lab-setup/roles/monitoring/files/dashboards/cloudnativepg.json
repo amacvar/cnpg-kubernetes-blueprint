@@ -46,7 +46,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "gridPos": {
         "h": 7,
@@ -79,7 +79,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "gridPos": {
         "h": 1,
@@ -104,7 +104,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "gridPos": {
         "h": 1,
@@ -129,7 +129,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "gridPos": {
         "h": 1,
@@ -154,7 +154,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "gridPos": {
         "h": 1,
@@ -179,7 +179,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "Cluster Replication Health represents the availability of replica servers available to replace the primary in case of a failure.",
       "fieldConfig": {
@@ -256,7 +256,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "(max(cnpg_pg_replication_streaming_replicas{namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\", pod=~\"$instances\"}) - sum(cnpg_pg_replication_is_wal_receiver_up{namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\", pod=~\"$instances\"})) + (clamp_max(max(cnpg_pg_replication_streaming_replicas{namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\", pod=~\"$instances\"}), 1) - 1)",
@@ -270,7 +270,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "High lag indicates issue with replication. Network or storage interfaces may not have enough bandwidth to handle incoming traffic and replication at the same time.",
       "fieldConfig": {
@@ -379,7 +379,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "max(cnpg_pg_replication_lag{namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"}) + max(cnpg_pg_stat_replication_write_lag_seconds{namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"}) + max(cnpg_pg_stat_replication_flush_lag_seconds{namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"}) + max(cnpg_pg_stat_replication_replay_lag_seconds{namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"})",
@@ -392,7 +392,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "expr": "",
           "hide": false,
@@ -406,7 +406,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "Low disk space or low inode count will result in data loss.",
       "fieldConfig": {
@@ -527,7 +527,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "max((max(max by(persistentvolumeclaim) (1 - kubelet_volume_stats_available_bytes{namespace=\"$namespace\",k8s_cluster=~\"$k8s_cluster\", persistentvolumeclaim=~\"$instances\"} / kubelet_volume_stats_capacity_bytes{namespace=\"$namespace\",k8s_cluster=~\"$k8s_cluster\", persistentvolumeclaim=~\"$instances\"}))) OR (max by(persistentvolumeclaim) (kubelet_volume_stats_inodes_used{namespace=\"$namespace\",k8s_cluster=~\"$k8s_cluster\", persistentvolumeclaim=~\"$instances\"} / kubelet_volume_stats_inodes{namespace=\"$namespace\",k8s_cluster=~\"$k8s_cluster\", persistentvolumeclaim=~\"$instances\"})))",
@@ -542,7 +542,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "",
       "fieldConfig": {
@@ -593,7 +593,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -613,7 +613,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -662,7 +662,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -679,7 +679,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "CPU Utilisation from Requests",
       "fieldConfig": {
@@ -751,7 +751,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "sum(sum by (namespace, pod, k8s_cluster) (irate(container_cpu_usage_seconds_total{image!=\"\",job=\"kubelet\",metrics_path=\"/metrics/cadvisor\", namespace=\"$namespace\",k8s_cluster=~\"$k8s_cluster\", pod=~\"$instances\"}[5m]))) / sum(kube_pod_container_resource_requests{job=\"kube-state-metrics\",  namespace=\"$namespace\",k8s_cluster=~\"$k8s_cluster\", resource=\"cpu\", pod=~\"$instances\"})",
@@ -767,7 +767,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "Memory Utilisation from Requests",
       "fieldConfig": {
@@ -839,7 +839,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "sum(container_memory_working_set_bytes{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", namespace=\"$namespace\",k8s_cluster=~\"$k8s_cluster\",container!=\"\", image!=\"\", pod=~\"$instances\"}) / sum(max by(pod) (kube_pod_container_resource_requests{job=\"kube-state-metrics\", namespace=\"$namespace\",k8s_cluster=~\"$k8s_cluster\", resource=\"memory\", pod=~\"$instances\"}))",
@@ -855,7 +855,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -918,7 +918,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -935,7 +935,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -996,7 +996,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "max(cnpg_pg_stat_replication_write_lag_seconds{namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"})",
@@ -1011,7 +1011,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1069,7 +1069,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -1084,7 +1084,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -1099,7 +1099,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -1117,7 +1117,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "Elapsed time since the last successful base backup.",
       "fieldConfig": {
@@ -1208,7 +1208,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -1225,7 +1225,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "High resource usage (CPU, Memory, DB Connections)",
       "fieldConfig": {
@@ -1334,7 +1334,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "(sum(sum by (namespace, pod, k8s_cluster) (irate(container_cpu_usage_seconds_total{image!=\"\",job=\"kubelet\",metrics_path=\"/metrics/cadvisor\", namespace=\"$namespace\",k8s_cluster=~\"$k8s_cluster\", pod=~\"$instances\"}[5m]))) / sum(kube_pod_container_resource_requests{job=\"kube-state-metrics\", namespace=\"$namespace\",k8s_cluster=~\"$k8s_cluster\", resource=\"cpu\", pod=~\"$instances\"}))",
@@ -1346,7 +1346,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "(sum(container_memory_working_set_bytes{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", namespace=\"$namespace\",k8s_cluster=~\"$k8s_cluster\",container!=\"\", image!=\"\", pod=~\"$instances\"}) / sum(max by(pod) (kube_pod_container_resource_requests{job=\"kube-state-metrics\", namespace=\"$namespace\",k8s_cluster=~\"$k8s_cluster\", resource=\"memory\", pod=~\"$instances\"})))",
@@ -1359,7 +1359,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": " (max(sum by (pod) (cnpg_backends_total{namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\", pod=~\"$instances\"}) / sum by (pod) (cnpg_pg_settings_setting{name=\"max_connections\", namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\", pod=~\"$instances\"})))",
@@ -1375,7 +1375,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "Computes the time since the last known WAL archival in the primary.\nWe ensure to ignore the metric in the replicas by using (1 - cnpg_pg_replication_in_recovery ) as a multiplicative factor. It will be 0 for replicas, 1 for the primary.",
       "fieldConfig": {
@@ -1449,7 +1449,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -1468,7 +1468,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "",
       "fieldConfig": {
@@ -1520,7 +1520,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "builder",
           "exemplar": false,
@@ -1541,7 +1541,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1602,7 +1602,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "max(cnpg_pg_stat_replication_flush_lag_seconds{namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"})",
@@ -1617,7 +1617,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1678,7 +1678,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "max(cnpg_pg_stat_replication_replay_lag_seconds{namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"})",
@@ -1693,7 +1693,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "Base Backups are considered healthy when there has been at least one base backup in the last 24 hours.",
       "fieldConfig": {
@@ -1851,7 +1851,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "time() - max({__name__=~\"cnpg_collector_last_available_backup_timestamp|barman_cloud_cloudnative_pg_io_last_available_backup_timestamp\",namespace=\"$namespace\",k8s_cluster=~\"$k8s_cluster\", pod=~\"$instances\"})",
@@ -1865,7 +1865,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "WAL is considered Healthy when the last WAL is 0min to 6min old, Delayed when it is less than 15min and Unsynced for >15min. Idle databases with no pending WAL files are shown as Healthy.",
       "fieldConfig": {
@@ -2023,7 +2023,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "max((1 - cnpg_pg_replication_in_recovery{namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\", pod=~\"$instances\"}) * (time() - timestamp(cnpg_pg_stat_archiver_seconds_since_last_archival{namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\", pod=~\"$instances\"}) +\ncnpg_pg_stat_archiver_seconds_since_last_archival{namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\", pod=~\"$instances\"})\n* on(pod, namespace, k8s_cluster) group_left()\n(cnpg_collector_pg_wal_archive_status{namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\", pod=~\"$instances\", value=\"ready\"} > bool 0))",
@@ -2039,7 +2039,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "Online if there is at least one ready operator pod",
       "fieldConfig": {
@@ -2124,7 +2124,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "sum(kube_pod_status_ready{namespace=\"$operatorNamespace\",k8s_cluster=~\"$k8s_cluster\", pod=~\"cloudnative-pg.+|cnpg-controller-manager.+\", condition=\"true\"})",
@@ -2140,7 +2140,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "The operator reconcile errors don't distinguish between database cluster or namespaces.",
       "fieldConfig": {
@@ -2261,7 +2261,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "clamp_max(max(controller_runtime_reconcile_total{namespace=~\"$operatorNamespace\",k8s_cluster=~\"$k8s_cluster\", result=\"error\", controller=\"backup\"}), 1)",
@@ -2273,7 +2273,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "clamp_max(max(controller_runtime_reconcile_total{namespace=~\"$operatorNamespace\",k8s_cluster=~\"$k8s_cluster\", result=\"error\", controller=\"cluster\"}), 1)",
@@ -2285,7 +2285,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "clamp_max(max(controller_runtime_reconcile_total{namespace=~\"$operatorNamespace\",k8s_cluster=~\"$k8s_cluster\", result=\"error\", controller=\"pooler\"}), 1)",
@@ -2297,7 +2297,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "clamp_max(max(controller_runtime_reconcile_total{namespace=~\"$operatorNamespace\",k8s_cluster=~\"$k8s_cluster\", result=\"error\", controller=~\"scheduledbackup|scheduled-backup\"}), 1)",
@@ -2322,7 +2322,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "",
       "fieldConfig": {
@@ -2381,7 +2381,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -2398,7 +2398,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "Container memory working set",
       "fieldConfig": {
@@ -2456,7 +2456,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -2473,7 +2473,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "",
       "fieldConfig": {
@@ -2532,7 +2532,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -2569,7 +2569,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2640,7 +2640,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -2659,7 +2659,7 @@
     {
       "collapsed": false,
       "datasource": {
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "gridPos": {
         "h": 1,
@@ -2672,7 +2672,7 @@
       "targets": [
         {
           "datasource": {
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "refId": "A"
         }
@@ -2683,7 +2683,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "gridPos": {
         "h": 1,
@@ -2707,7 +2707,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
           "expr": "kube_pod_container_status_ready{container=\"postgres\",namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"}",
@@ -2724,7 +2724,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "gridPos": {
         "h": 1,
@@ -2748,7 +2748,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
           "expr": "kube_pod_container_status_ready{container=\"postgres\",namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"}",
@@ -2764,7 +2764,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "gridPos": {
         "h": 1,
@@ -2788,7 +2788,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
           "expr": "kube_pod_container_status_ready{container=\"postgres\",namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"}",
@@ -2804,7 +2804,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "gridPos": {
         "h": 1,
@@ -2828,7 +2828,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
           "expr": "kube_pod_container_status_ready{container=\"postgres\",namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"}",
@@ -2844,7 +2844,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "gridPos": {
         "h": 1,
@@ -2868,7 +2868,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
           "expr": "kube_pod_container_status_ready{container=\"postgres\",namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"}",
@@ -2884,7 +2884,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "gridPos": {
         "h": 1,
@@ -2908,7 +2908,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
           "expr": "kube_pod_container_status_ready{container=\"postgres\",namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"}",
@@ -2924,7 +2924,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "",
       "gridPos": {
@@ -2949,7 +2949,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
           "expr": "kube_pod_container_status_ready{container=\"postgres\",namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"}",
@@ -2965,7 +2965,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "gridPos": {
         "h": 1,
@@ -2989,7 +2989,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
           "expr": "kube_pod_container_status_ready{container=\"postgres\",namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"}",
@@ -3005,7 +3005,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "gridPos": {
         "h": 1,
@@ -3029,7 +3029,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
           "expr": "kube_pod_container_status_ready{container=\"postgres\",namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"}",
@@ -3045,7 +3045,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "gridPos": {
         "h": 3,
@@ -3070,7 +3070,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
           "expr": "kube_pod_container_status_ready{container=\"postgres\",namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"}",
@@ -3085,7 +3085,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -3154,7 +3154,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -3170,7 +3170,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "",
       "fieldConfig": {
@@ -3243,7 +3243,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
           "expr": "1 - cnpg_pg_replication_in_recovery{namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"} + cnpg_pg_replication_is_wal_receiver_up{namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"}",
@@ -3258,7 +3258,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "",
       "fieldConfig": {
@@ -3315,7 +3315,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -3331,7 +3331,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "This metric depends on exporting the: `topology.kubernetes.io/zone` label through kube-state-metrics (not enabled by default). Can be added by changing its configuration with:\n\n```yaml\nmetricLabelsAllowlist:\n  - nodes=[topology.kubernetes.io/zone]\n```",
       "fieldConfig": {
@@ -3385,7 +3385,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -3402,7 +3402,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -3484,7 +3484,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -3500,7 +3500,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "",
       "fieldConfig": {
@@ -3564,7 +3564,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -3580,7 +3580,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -3644,7 +3644,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -3660,7 +3660,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "",
       "fieldConfig": {
@@ -3713,7 +3713,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -3732,7 +3732,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "",
       "fieldConfig": {
@@ -3785,7 +3785,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -3804,7 +3804,7 @@
     {
       "collapsed": true,
       "datasource": {
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "gridPos": {
         "h": 1,
@@ -3817,7 +3817,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "gridPos": {
             "h": 1,
@@ -3841,7 +3841,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "exemplar": true,
               "expr": "kube_pod_container_status_ready{container=\"postgres\",namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"}",
@@ -3858,7 +3858,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "gridPos": {
             "h": 1,
@@ -3882,7 +3882,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "exemplar": true,
               "expr": "kube_pod_container_status_ready{container=\"postgres\",namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"}",
@@ -3898,7 +3898,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "gridPos": {
             "h": 1,
@@ -3922,7 +3922,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "exemplar": true,
               "expr": "kube_pod_container_status_ready{container=\"postgres\",namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"}",
@@ -3938,7 +3938,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "gridPos": {
             "h": 1,
@@ -3962,7 +3962,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "exemplar": true,
               "expr": "kube_pod_container_status_ready{container=\"postgres\",namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"}",
@@ -3978,7 +3978,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "gridPos": {
             "h": 1,
@@ -4002,7 +4002,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "exemplar": true,
               "expr": "kube_pod_container_status_ready{container=\"postgres\",namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"}",
@@ -4018,7 +4018,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "gridPos": {
             "h": 1,
@@ -4042,7 +4042,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "exemplar": true,
               "expr": "kube_pod_container_status_ready{container=\"postgres\",namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"}",
@@ -4058,7 +4058,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "gridPos": {
             "h": 1,
@@ -4082,7 +4082,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "exemplar": true,
               "expr": "kube_pod_container_status_ready{container=\"postgres\",namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"}",
@@ -4098,7 +4098,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "gridPos": {
             "h": 1,
@@ -4122,7 +4122,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "exemplar": true,
               "expr": "kube_pod_container_status_ready{container=\"postgres\",namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"}",
@@ -4138,7 +4138,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "gridPos": {
             "h": 3,
@@ -4163,7 +4163,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "exemplar": true,
               "expr": "kube_pod_container_status_ready{container=\"postgres\",namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"}",
@@ -4178,7 +4178,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -4229,7 +4229,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "exemplar": true,
               "expr": "cnpg_pg_settings_setting{name=\"max_connections\",namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"}",
@@ -4244,7 +4244,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -4297,7 +4297,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "exemplar": true,
               "expr": "max by (pod) (cnpg_pg_settings_setting{name=\"shared_buffers\",namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"}) * max by (pod) (cnpg_pg_settings_setting{name=\"block_size\",namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"})",
@@ -4312,7 +4312,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -4365,7 +4365,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "exemplar": true,
               "expr": "max by (pod) (cnpg_pg_settings_setting{name=\"effective_cache_size\",namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"}) * max by (pod) (cnpg_pg_settings_setting{name=\"block_size\",namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"})",
@@ -4380,7 +4380,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -4433,7 +4433,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "exemplar": true,
               "expr": "cnpg_pg_settings_setting{name=\"work_mem\",namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"} * 1024",
@@ -4448,7 +4448,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -4500,7 +4500,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "exemplar": true,
               "expr": "cnpg_pg_settings_setting{name=\"maintenance_work_mem\",namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"} * 1024",
@@ -4515,7 +4515,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -4567,7 +4567,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "exemplar": true,
               "expr": "cnpg_pg_settings_setting{name=\"random_page_cost\",namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"}",
@@ -4582,7 +4582,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -4634,7 +4634,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "exemplar": true,
               "expr": "cnpg_pg_settings_setting{name=\"seq_page_cost\",namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"}",
@@ -4649,7 +4649,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -4703,7 +4703,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "exemplar": true,
               "expr": "cnpg_pg_settings_setting{namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"}",
@@ -4773,7 +4773,7 @@
       "targets": [
         {
           "datasource": {
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "refId": "A"
         }
@@ -4784,7 +4784,7 @@
     {
       "collapsed": false,
       "datasource": {
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "gridPos": {
         "h": 1,
@@ -4797,7 +4797,7 @@
       "targets": [
         {
           "datasource": {
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "refId": "A"
         }
@@ -4808,7 +4808,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -4891,7 +4891,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
           "expr": "sum(sum by (namespace, pod, k8s_cluster) (irate(container_cpu_usage_seconds_total{image!=\"\",job=\"kubelet\",metrics_path=\"/metrics/cadvisor\", pod=~\"$instances\", namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\"}[5m]))) by (pod)",
@@ -4909,7 +4909,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -5072,7 +5072,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
           "expr": "sum(container_memory_working_set_bytes{pod=~\"$instances\", namespace=\"$namespace\",k8s_cluster=~\"$k8s_cluster\", container!=\"\", image!=\"\"}) by (pod)",
@@ -5090,7 +5090,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "",
       "fieldConfig": {
@@ -5166,7 +5166,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
           "expr": "sum(cnpg_backends_total{namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"}) by (pod)",
@@ -5178,7 +5178,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
           "expr": "sum(cnpg_backends_total{namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"}) by (state, pod)",
@@ -5193,7 +5193,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -5272,7 +5272,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -5285,7 +5285,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
           "expr": "sum(rate(cnpg_pg_stat_database_xact_rollback{namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"}[5m])) by (pod)",
@@ -5301,7 +5301,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "",
       "fieldConfig": {
@@ -5382,7 +5382,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
           "expr": "max by (pod) (cnpg_backends_max_tx_duration_seconds{namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"})",
@@ -5397,7 +5397,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "",
       "fieldConfig": {
@@ -5477,7 +5477,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
           "expr": "sum(rate(cnpg_pg_stat_database_deadlocks{namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"}[5m])) by (pod)",
@@ -5494,7 +5494,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "",
       "fieldConfig": {
@@ -5574,7 +5574,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
           "expr": "cnpg_backends_waiting_total{namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"}",
@@ -5589,7 +5589,7 @@
     {
       "collapsed": true,
       "datasource": {
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "gridPos": {
         "h": 1,
@@ -5602,7 +5602,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -5661,7 +5661,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "expr": "max by(persistentvolumeclaim) (1 - kubelet_volume_stats_available_bytes{namespace=\"$namespace\",k8s_cluster=~\"$k8s_cluster\", persistentvolumeclaim=~\"$instances\"} / kubelet_volume_stats_capacity_bytes{namespace=\"$namespace\",k8s_cluster=~\"$k8s_cluster\", persistentvolumeclaim=~\"$instances\"})",
@@ -5674,7 +5674,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "expr": "max by(persistentvolumeclaim) (1 - kubelet_volume_stats_available_bytes{namespace=\"$namespace\",k8s_cluster=~\"$k8s_cluster\", persistentvolumeclaim=~\"(${instances})-wal\"} / kubelet_volume_stats_capacity_bytes{namespace=\"$namespace\",k8s_cluster=~\"$k8s_cluster\", persistentvolumeclaim=~\"(${instances})-wal\"})",
@@ -5692,7 +5692,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -5751,7 +5751,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "expr": "max by(persistentvolumeclaim) (kubelet_volume_stats_inodes_used{namespace=\"$namespace\",k8s_cluster=~\"$k8s_cluster\", persistentvolumeclaim=~\"$instances\"} / kubelet_volume_stats_inodes{namespace=\"$namespace\",k8s_cluster=~\"$k8s_cluster\", persistentvolumeclaim=~\"$instances\"})",
@@ -5764,7 +5764,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "expr": "max by(persistentvolumeclaim) (kubelet_volume_stats_inodes_used{namespace=\"$namespace\",k8s_cluster=~\"$k8s_cluster\", persistentvolumeclaim=~\"(${instances})-wal\"} / kubelet_volume_stats_inodes{namespace=\"$namespace\",k8s_cluster=~\"$k8s_cluster\", persistentvolumeclaim=~\"(${instances})-wal\"})",
@@ -5782,7 +5782,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -5841,7 +5841,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "expr": "sum by (namespace,persistentvolumeclaim) (kubelet_volume_stats_used_bytes{namespace=\"$namespace\",k8s_cluster=~\"$k8s_cluster\", persistentvolumeclaim=~\"(${instances})-tbs.*\"}) \n/\nsum by (namespace,persistentvolumeclaim) (kubelet_volume_stats_capacity_bytes{namespace=\"$namespace\",k8s_cluster=~\"$k8s_cluster\", persistentvolumeclaim=~\"(${instances})-tbs.*\"}) \n*\non(namespace, persistentvolumeclaim, k8s_cluster) group_left(volume,pod)\nkube_pod_spec_volumes_persistentvolumeclaims_info{pod=~\"$instances\"}",
@@ -5859,7 +5859,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -5938,7 +5938,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "exemplar": true,
@@ -5951,7 +5951,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "exemplar": true,
@@ -5965,7 +5965,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "exemplar": true,
@@ -5979,7 +5979,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "exemplar": true,
@@ -5993,7 +5993,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "exemplar": true,
@@ -6011,7 +6011,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -6090,7 +6090,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "exemplar": true,
@@ -6103,7 +6103,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "exemplar": true,
@@ -6121,7 +6121,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -6198,7 +6198,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "exemplar": true,
@@ -6215,7 +6215,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -6295,7 +6295,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "exemplar": true,
               "expr": "sum(rate(cnpg_pg_stat_database_temp_bytes{namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"}[5m])) by (pod)",
@@ -6312,7 +6312,7 @@
       "targets": [
         {
           "datasource": {
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "refId": "A"
         }
@@ -6323,7 +6323,7 @@
     {
       "collapsed": true,
       "datasource": {
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "gridPos": {
         "h": 1,
@@ -6336,7 +6336,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -6415,7 +6415,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "exemplar": true,
               "expr": "cnpg_collector_pg_wal_archive_status{value=\"ready\",namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"}",
@@ -6426,7 +6426,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "exemplar": true,
               "expr": "cnpg_collector_pg_wal_archive_status{value=\"done\",namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"}",
@@ -6442,7 +6442,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -6521,7 +6521,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "exemplar": true,
               "expr": "rate(cnpg_pg_stat_archiver_archived_count{namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"}[5m])",
@@ -6532,7 +6532,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "exemplar": true,
               "expr": "rate(cnpg_pg_stat_archiver_failed_count{namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"}[5m])",
@@ -6548,7 +6548,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -6629,7 +6629,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "exemplar": true,
               "expr": "cnpg_pg_stat_archiver_seconds_since_last_archival{namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"}",
@@ -6644,7 +6644,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -6723,7 +6723,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "expr": "cnpg_collector_pg_wal{pod=~\"$instances\", namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\", value=\"count\"}",
@@ -6740,7 +6740,7 @@
       "targets": [
         {
           "datasource": {
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "refId": "A"
         }
@@ -6751,7 +6751,7 @@
     {
       "collapsed": true,
       "datasource": {
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "gridPos": {
         "h": 1,
@@ -6764,7 +6764,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -6848,7 +6848,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "exemplar": true,
               "expr": "cnpg_pg_replication_lag{namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"}",
@@ -6864,7 +6864,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -6944,7 +6944,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "exemplar": true,
@@ -6961,7 +6961,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -7041,7 +7041,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "exemplar": true,
@@ -7058,7 +7058,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -7139,7 +7139,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "exemplar": true,
@@ -7157,7 +7157,7 @@
       "targets": [
         {
           "datasource": {
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "refId": "A"
         }
@@ -7168,7 +7168,7 @@
     {
       "collapsed": true,
       "datasource": {
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "gridPos": {
         "h": 1,
@@ -7190,7 +7190,7 @@
           "dataFormat": "timeseries",
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -7265,7 +7265,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "exemplar": true,
               "expr": "cnpg_collector_collection_duration_seconds{namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"}",
@@ -7293,7 +7293,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -7372,7 +7372,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "exemplar": true,
               "expr": "cnpg_collector_last_collection_error{namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"}",
@@ -7388,7 +7388,7 @@
       "targets": [
         {
           "datasource": {
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "refId": "A"
         }
@@ -7399,7 +7399,7 @@
     {
       "collapsed": true,
       "datasource": {
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "gridPos": {
         "h": 1,
@@ -7412,7 +7412,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -7492,7 +7492,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "exemplar": true,
               "expr": "max({__name__=~\"cnpg_collector_first_recoverability_point|barman_cloud_cloudnative_pg_io_first_recoverability_point\",namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"})*1000 > 0",
@@ -7509,7 +7509,7 @@
       "targets": [
         {
           "datasource": {
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "refId": "A"
         }
@@ -7520,7 +7520,7 @@
     {
       "collapsed": true,
       "datasource": {
-        "uid": "prometheus"
+        "uid": "${DS_PROMETHEUS}"
       },
       "gridPos": {
         "h": 1,
@@ -7533,7 +7533,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -7615,7 +7615,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "exemplar": true,
               "expr": "rate({__name__=~\"cnpg_pg_stat_(bgwriter|checkpointer)_checkpoints_req\",namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"}[$__rate_interval])",
@@ -7630,7 +7630,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "exemplar": true,
               "expr": "rate({__name__=~\"cnpg_pg_stat_(bgwriter|checkpointer)_checkpoints_timed\",namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\",pod=~\"$instances\"}[$__rate_interval])",
@@ -7647,7 +7647,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -7729,7 +7729,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "exemplar": true,
               "expr": "rate({__name__=~\"cnpg_pg_stat_(bgwriter_checkpoint|checkpointer)_write_time\", namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\", pod=~\"$instances\"}[$__rate_interval])",
@@ -7744,7 +7744,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "exemplar": true,
               "expr": "rate({__name__=~\"cnpg_pg_stat_(bgwriter_checkpoint|checkpointer)_sync_time\", namespace=~\"$namespace\",k8s_cluster=~\"$k8s_cluster\", pod=~\"$instances\"}[$__rate_interval])",
@@ -7762,7 +7762,7 @@
       "targets": [
         {
           "datasource": {
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "refId": "A"
         }
@@ -7783,7 +7783,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "Show the installed extensions and their versions",
           "fieldConfig": {
@@ -7941,7 +7941,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "Per-database stats within the selected cluster/instances: size and XID/MXID wraparound age, transaction and temp-file rates, deadlocks, active backends and longest running transaction",
           "fieldConfig": {
@@ -8240,7 +8240,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -8313,7 +8313,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "exemplar": false,
@@ -8330,7 +8330,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "The operator reconcile errors don't distinguish between database cluster or namespaces.",
           "fieldConfig": {
@@ -8414,7 +8414,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "exemplar": false,
@@ -8431,7 +8431,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "The operator reconcile errors don't distinguish between database cluster or namespaces.",
           "fieldConfig": {
@@ -8515,7 +8515,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "exemplar": false,
@@ -8532,7 +8532,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "The operator reconcile errors don't distinguish between database cluster or namespaces.",
           "fieldConfig": {
@@ -8616,7 +8616,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "exemplar": false,
@@ -8633,7 +8633,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "The operator reconcile errors don't distinguish between database cluster or namespaces.",
           "fieldConfig": {
@@ -8717,7 +8717,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "exemplar": false,
@@ -8734,7 +8734,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -8835,7 +8835,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "expr": "sum(kube_pod_status_ready{namespace=\"$operatorNamespace\",k8s_cluster=~\"$k8s_cluster\", pod=~\"cloudnative-pg.+|cnpg-controller-manager.+\", condition=\"true\"})",
@@ -8852,7 +8852,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "The operator reconcile errors don't distinguish between database cluster or namespaces.",
           "fieldConfig": {
@@ -8964,7 +8964,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "expr": "max(controller_runtime_reconcile_total{namespace=~\"$operatorNamespace\",k8s_cluster=~\"$k8s_cluster\", result=\"error\", controller=\"cluster\"})",
@@ -8980,7 +8980,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "The operator reconcile errors don't distinguish between database cluster or namespaces.",
           "fieldConfig": {
@@ -9092,7 +9092,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "expr": "max(controller_runtime_reconcile_total{namespace=~\"$operatorNamespace\",k8s_cluster=~\"$k8s_cluster\", result=\"error\", controller=\"backup\"})",
@@ -9108,7 +9108,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "The operator reconcile errors don't distinguish between database cluster or namespaces.",
           "fieldConfig": {
@@ -9220,7 +9220,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "exemplar": false,
@@ -9238,7 +9238,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "The operator reconcile errors don't distinguish between database cluster or namespaces.",
           "fieldConfig": {
@@ -9350,7 +9350,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "expr": "max(controller_runtime_reconcile_total{namespace=~\"$operatorNamespace\",k8s_cluster=~\"$k8s_cluster\", result=\"error\", controller=\"pooler\"})",
@@ -9424,7 +9424,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "prometheus"
+          "uid": "${DS_PROMETHEUS}"
         },
         "definition": "label_values(controller_runtime_webhook_requests_total{webhook=\"/mutate-postgresql-cnpg-io-v1-cluster\",k8s_cluster=~\"$k8s_cluster\"},namespace)",
         "description": "Namespace where the CNPG operator is located",
@@ -9449,7 +9449,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "prometheus"
+          "uid": "${DS_PROMETHEUS}"
         },
         "definition": "cnpg_collector_up{k8s_cluster=~\"$k8s_cluster\"}",
         "description": "Namespace where the database cluster is located",
@@ -9473,7 +9473,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "prometheus"
+          "uid": "${DS_PROMETHEUS}"
         },
         "definition": "cnpg_collector_up{k8s_cluster=~\"$k8s_cluster\",namespace=~\"$namespace\"}",
         "description": "CNPG Cluster",
@@ -9498,7 +9498,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "prometheus"
+          "uid": "${DS_PROMETHEUS}"
         },
         "definition": "cnpg_collector_up{k8s_cluster=~\"$k8s_cluster\",namespace=~\"$namespace\",pod=~\"$cluster-([1-9][0-9]*)$\"}",
         "description": "Database cluster instances",
@@ -9523,7 +9523,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "prometheus"
+          "uid": "${DS_PROMETHEUS}"
         },
         "definition": "label_values(cnpg_pg_stat_database_xact_commit{k8s_cluster=~\"$k8s_cluster\",namespace=~\"$namespace\",pod=~\"$instances\"}, datname)",
         "description": "Database within the cluster",

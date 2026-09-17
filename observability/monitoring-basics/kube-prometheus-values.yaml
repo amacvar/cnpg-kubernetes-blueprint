@@ -1,0 +1,14 @@
+# Minimal values for prometheus-community/kube-prometheus-stack.
+#
+# The one setting that actually matters here: by default this chart's
+# Prometheus only watches PodMonitors carrying its own release label.
+# A hand-created PodMonitor (like podmonitor.yaml) has no such label, so
+# without this it's silently never discovered -- cnpg_collector_up just
+# shows nothing, with no error anywhere. Straight from CNPG's own quickstart
+# sample (docs/src/samples/monitoring/kube-stack-config.yaml).
+prometheus:
+  prometheusSpec:
+    podMonitorSelectorNilUsesHelmValues: false
+    serviceMonitorSelectorNilUsesHelmValues: false
+    ruleSelectorNilUsesHelmValues: false
+    probeSelectorNilUsesHelmValues: false
