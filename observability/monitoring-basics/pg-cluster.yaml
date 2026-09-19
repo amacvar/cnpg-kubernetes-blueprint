@@ -10,7 +10,4 @@ spec:
   storage:
     size: 1Gi
 
-  # Nothing monitoring-specific to configure here: the exporter on port
-  # 9187 and the cnpg-default-monitoring query set are both on by default
-  # (disableDefaultQueries defaults to false). See the PodMonitor below for
-  # the one piece that IS now on you.
+  # Nothing monitoring-specific to configure here.
