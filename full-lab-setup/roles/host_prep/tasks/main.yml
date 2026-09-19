@@ -60,17 +60,27 @@
     label: "{{ item.host }} ({{ item.label }})"
   when: lab_firewall == 'firewalld'
 
+# /etc/sysctl.conf is NOT read by systemd-sysctl.service at boot on Debian
+# (only /etc/sysctl.d/*.conf, /run/sysctl.d/*.conf, /usr/lib/sysctl.d/*.conf
+# are) — writing there only takes effect for the current session via this
+# task's own `reload: true`, and silently reverts on the next reboot. A
+# dedicated drop-in file is required for it to actually persist. Values
+# bumped from 512/524288: with hub + 2 workload clusters (server + agents +
+# serverlb per cluster, each running its own kubelet/containerd watchers),
+# 512 instances was already nearly exhausted before every node was even up,
+# and one node hitting the cap causes a hard crash-loop, not a soft failure.
 - name: Increase inotify limits for multi-cluster k3d nodes
   become: true
   ansible.builtin.sysctl:
     name: "{{ item.name }}"
     value: "{{ item.value }}"
+    sysctl_file: /etc/sysctl.d/99-k3d-inotify.conf
     state: present
     sysctl_set: true
     reload: true
   loop:
-    - {name: 'fs.inotify.max_user_watches', value: '524288'}
-    - {name: 'fs.inotify.max_user_instances', value: '512'}
+    - {name: 'fs.inotify.max_user_watches', value: '1048576'}
+    - {name: 'fs.inotify.max_user_instances', value: '8192'}
 
 - name: Ensure jq is installed
   become: true
