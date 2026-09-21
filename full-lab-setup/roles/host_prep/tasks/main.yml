@@ -118,14 +118,14 @@
     path: "{{ lab_user_home }}/.kube"
     state: directory
     owner: "{{ lab_user }}"
-    group: "{{ lab_user }}"
+    group: "{{ lab_group }}"
     mode: "0700"
 
 - name: Configure the lab shell environment in ~/.bashrc
   ansible.builtin.blockinfile:
     path: "{{ lab_user_home }}/.bashrc"
     owner: "{{ lab_user }}"
-    group: "{{ lab_user }}"
+    group: "{{ lab_group }}"
     marker: "# {mark} ANSIBLE MANAGED BLOCK: LAB CLI ENVS"
     block: |
       # --- {{ secrets_cfg.display }} (hub cluster, published on the host by k3d) ---
