@@ -11,7 +11,8 @@
 # in k3d-managed volumes, not in standalone Docker volumes any more.
 #
 # NOT reverted: the FORWARD iptables policy (its prior value is unknown) and
-# the inotify sysctls.
+# the inotify sysctls. On macOS the iptables INPUT-rule removal is skipped
+# entirely — site.yml never inserts those rules there in the first place.
 # =============================================================================
 - name: Tear down the CNPG cross-cluster lab
   hosts: "{{ target | default('localhost') }}"
@@ -95,6 +96,9 @@
     # ========================================================================
     # 4 — Host-side files and firewall rules
     # ========================================================================
+    # No iptables on macOS, and site.yml never inserted these rules there in the
+    # first place (host_prep skips Tier-B firewall/sysctl tasks on Darwin) — so
+    # there is nothing to remove, and become would only fail on the sudo prompt.
     - name: Remove the lab's iptables INPUT rules
       become: true
       ansible.builtin.iptables:
@@ -107,6 +111,7 @@
       loop_control:
         label: "{{ item.host }} ({{ item.label }})"
       failed_when: false
+      when: ansible_facts.system != 'Darwin'
 
     - name: Remove the managed block from ~/.bashrc
       ansible.builtin.blockinfile:
